@@ -11,6 +11,10 @@ type ExpectedPattern0 =
     Some: (adt: Some<string>) => number
   }
   | {
+    None: (adt: None) => number
+    Some_value: (value: string) => number
+  }
+  | {
     _: () => number
   }
 
@@ -29,10 +33,16 @@ type ExpectedPattern1 =
     Some_value_None: (adt: None) => number
   }
   | {
+    None: (adt: None) => number
+    Some_value_Some_value: (value: string) => number
+    Some_value_None: (adt: None) => number
+  }
+  | {
     _: () => number
   }
 
 declare const p1: Pattern<'_tag', Option<Option<string>>, number>
+
 expectType<ExpectedPattern1>(p1)
 expectType<Equals<typeof p1, ExpectedPattern1>>(true)
 

@@ -32,27 +32,23 @@ type ExhaustivePattern<Tag extends string, T extends Adt<Tag>, R> = JoinPath<
       | EnsureNonEmpty<
         {
           [K2 in SinglePropOf<Tag, Du<Tag, K1, T>>]: (
-            [
-              Du<Tag, K1, T>[K2] extends infer Sub ? Sub extends Adt<Tag> ? Sub : never : never,
-            ] extends infer Sub ? Sub extends [never] ? never : Sub extends [Adt<Tag>] ? {
+            [Du<Tag, K1, T>[K2]] extends infer Sub ? Sub extends [Adt<Tag>] ? {
               [K3 in Sub[0][Tag]]:
                 // level 3
                 | EnsureNonEmpty<
                   {
-                    [K2 in SinglePropOf<Tag, Du<Tag, K3, Sub[0]>>]: (
-                      [
-                        Du<Tag, K3, Sub[0]>[K2] extends infer Sub ? Sub extends Adt<Tag> ? Sub : never : never,
-                      ] extends infer SubSub ? SubSub extends [never] ? never : SubSub extends [Adt<Tag>] ? {
-                        [K4 in SubSub[0][Tag]]: ((adt: Du<Tag, K4, SubSub[0]>) => R)
+                    [K4 in SinglePropOf<Tag, Du<Tag, K3, Sub[0]>>]: (
+                      [Du<Tag, K3, Sub[0]>[K4]] extends infer SubSub ? SubSub extends [Adt<Tag>] ? {
+                        [K5 in SubSub[0][Tag]]: (adt: Du<Tag, K5, SubSub[0]>) => R
                       }
-                      : never
+                      : (v: Du<Tag, K3, Sub[0]>[K4]) => R
                         : never
                     )
                   }
                 >
                 | ((adt: Du<Tag, K3, Sub[0]>) => R)
             }
-            : never
+            : (v: Du<Tag, K1, T>[K2]) => R
               : never
           )
         }
