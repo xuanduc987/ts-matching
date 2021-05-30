@@ -1,6 +1,6 @@
 # ts-matching
 
-A pattern matching libary for typescript with smart type inference.
+A pattern matching library for typescript with smart type inference.
 
 ## Install
 
