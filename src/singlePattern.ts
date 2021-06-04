@@ -1,62 +1,66 @@
-import { Adt, Du, Simplify, UnionToIntersection, UnionToIntersectionGroup } from './types'
+import { Adt, Du, Simplify, UnionToIntersection } from './types'
 
 type ValueOf<T> = T[keyof T]
-type Strip<R> = { [K in ValueOf<{ [K in keyof R]: R[K] extends never ? never : K }>]: R[K] }
-type EnsureNonEmpty<R> = keyof Strip<R> extends never ? never : R
-
-type GroupValueOf<T, K> = K extends keyof T ? [T[K]] : never
-type Peel<T> = UnionToIntersectionGroup<GroupValueOf<T, keyof T>>
 
 type SinglePropOf<Tag extends string, R> = keyof Omit<R, Tag> extends never ? never
   : keyof Omit<R, Tag> extends UnionToIntersection<keyof Omit<R, Tag>> ? keyof Omit<R, Tag>
   : never
 
-type Flatten<T, K extends string> = T extends Function ? { [K1 in K]: T }
-  : Peel<
-    {
-      [K2 in keyof T & string]: Peel<
-        {
-          [Key in `${K}_${K2}`]: Flatten<T[K2], Key>
-        }
-      >
-    }
-  >
+export interface None {
+  readonly _tag: 'None'
+}
 
-type JoinPath<T> = T extends unknown ? Peel<{ [K in keyof T & string]: Flatten<T[K], K> }>
-  : never
+export interface None2 {
+  readonly _tag: 'None2'
+}
 
-type ExhaustivePattern<Tag extends string, T extends Adt<Tag>, R> = JoinPath<
+export class Some<T> {
+  readonly _tag = 'Some'
+  constructor(readonly value: T) {}
+}
+
+export type Option<T> = None2 | None | Some<T>
+
+type GetFullPattern<Tag extends string, T extends Adt<Tag>, R> = {
+  [K in T[Tag]]: (v: Du<Tag, K, T>) => R
+}
+
+type NestedKeys<Tag extends string, T extends Adt<Tag>> = ValueOf<
   {
-    [K1 in T[Tag]]:
-      // level 2
-      | EnsureNonEmpty<
-        {
-          [K2 in SinglePropOf<Tag, Du<Tag, K1, T>>]: (
-            [Du<Tag, K1, T>[K2]] extends infer Sub ? Sub extends [Adt<Tag>] ? {
-              [K3 in Sub[0][Tag]]:
-                // level 3
-                | EnsureNonEmpty<
-                  {
-                    [K4 in SinglePropOf<Tag, Du<Tag, K3, Sub[0]>>]: (
-                      [Du<Tag, K3, Sub[0]>[K4]] extends infer SubSub ? SubSub extends [Adt<Tag>] ? {
-                        [K5 in SubSub[0][Tag]]: (adt: Du<Tag, K5, SubSub[0]>) => R
-                      }
-                      : (v: Du<Tag, K3, Sub[0]>[K4]) => R
-                        : never
-                    )
-                  }
-                >
-                | ((adt: Du<Tag, K3, Sub[0]>) => R)
-            }
-            : (v: Du<Tag, K1, T>[K2]) => R
-              : never
-          )
-        }
-      >
-      // level 1
-      | ((adt: Du<Tag, K1, T>) => R)
+    [K in T[Tag]]: SinglePropOf<Tag, Du<Tag, K, T>> extends never ? never : K
   }
 >
+
+type AltPatternsFor<Tag extends string, T extends Adt<Tag>, K extends T[Tag], R> = K extends unknown
+  ? SinglePropOf<Tag, Du<Tag, K, T>> extends infer P ? P extends keyof Du<Tag, K, T> & string ? (
+    | (
+      & Omit<GetFullPattern<Tag, T, R>, K>
+      & (
+        [Du<Tag, K, T>[P]] extends infer Sub
+          ? Sub extends [Adt<Tag>]
+            ? ExhaustivePattern<Tag, Sub[0], R> extends infer SubPattern ? SubPattern extends unknown ? {
+              [SubKey in keyof SubPattern & string as `${K}_${P}_${SubKey}`]: SubPattern[SubKey]
+            }
+            : never
+            : never
+          : never
+          : never
+      )
+    )
+    | (
+      & Omit<GetFullPattern<Tag, T, R>, K>
+      & {
+        [K_ in `${K}_${P}`]: (v: Du<Tag, K, T>[P]) => R
+      }
+    )
+  )
+  : never
+  : never
+  : never
+
+type ExhaustivePattern<Tag extends string, T extends Adt<Tag>, R> =
+  | GetFullPattern<Tag, T, R>
+  | AltPatternsFor<Tag, T, NestedKeys<Tag, T>, R>
 
 export type Pattern<Tag extends string, T extends Adt<Tag>, R> = Simplify<
   | ExhaustivePattern<Tag, T, R>

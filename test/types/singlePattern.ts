@@ -29,6 +29,10 @@ type ExpectedPattern1 =
   }
   | {
     None: (adt: None) => number
+    Some_value: (adt: Option<string>) => number
+  }
+  | {
+    None: (adt: None) => number
     Some_value_Some: (adt: Some<string>) => number
     Some_value_None: (adt: None) => number
   }
@@ -53,13 +57,28 @@ type ExpectedPattern2 =
   }
   | {
     None: (adt: None) => number
+    Some_value: (adt: Option<Option<string>>) => number
+  }
+  | {
+    None: (adt: None) => number
     Some_value_Some: (adt: Some<Option<string>>) => number
+    Some_value_None: (adt: None) => number
+  }
+  | {
+    None: (adt: None) => number
+    Some_value_Some_value: (adt: Option<string>) => number
     Some_value_None: (adt: None) => number
   }
   | {
     None: (adt: None) => number
     Some_value_None: (adt: None) => number
     Some_value_Some_value_Some: (adt: Some<string>) => number
+    Some_value_Some_value_None: (adt: None) => number
+  }
+  | {
+    None: (adt: None) => number
+    Some_value_None: (adt: None) => number
+    Some_value_Some_value_Some_value: (adt: string) => number
     Some_value_Some_value_None: (adt: None) => number
   }
   | {
@@ -78,14 +97,43 @@ type ExpectedPattern3 =
   }
   | {
     None: (adt: None) => number
-    Some_value_Some: (adt: Some<Option<Option<string>>>) => number
-    Some_value_None: (adt: None) => number
+    Some_value: (adt: Option<Option<Option<string>>>) => number
   }
   | {
     None: (adt: None) => number
     Some_value_None: (adt: None) => number
-    Some_value_Some_value_Some: (adt: Some<Option<string>>) => number
+    Some_value_Some: (adt: Some<Option<Option<string>>>) => number
+  }
+  | {
+    None: (adt: None) => number
+    Some_value_None: (adt: None) => number
+    Some_value_Some_value: (adt: Option<Option<string>>) => number
+  }
+  | {
+    None: (adt: None) => number
+    Some_value_None: (adt: None) => number
     Some_value_Some_value_None: (adt: None) => number
+    Some_value_Some_value_Some: (adt: Some<Option<string>>) => number
+  }
+  | {
+    None: (adt: None) => number
+    Some_value_None: (adt: None) => number
+    Some_value_Some_value_None: (adt: None) => number
+    Some_value_Some_value_Some_value: (adt: Option<string>) => number
+  }
+  | {
+    None: (adt: None) => number
+    Some_value_None: (adt: None) => number
+    Some_value_Some_value_None: (adt: None) => number
+    Some_value_Some_value_Some_value_None: (adt: None) => number
+    Some_value_Some_value_Some_value_Some: (adt: Some<string>) => number
+  }
+  | {
+    None: (adt: None) => number
+    Some_value_None: (adt: None) => number
+    Some_value_Some_value_None: (adt: None) => number
+    Some_value_Some_value_Some_value_None: (adt: None) => number
+    Some_value_Some_value_Some_value_Some_value: (adt: string) => number
   }
   | {
     _: () => number
