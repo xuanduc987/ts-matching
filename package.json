@@ -16,7 +16,7 @@
   ],
   "homepage": "https://github.com/xuanduc987/ts-matching",
   "files": [
-    "dist"
+    "dist/src"
   ],
   "devDependencies": {
     "@ava/typescript": "^1.1.1",
