@@ -37,7 +37,7 @@ const toMsg = (data: RemoteData<Error, Option<string>>) =>
     data,
     match({
       Loading: () => 'loading',
-      Failure: (e) => `error: ${e.error.message}`,
+      Failure_error: (e) => `error: ${e.message}`,
       Success_value_Some_value: (value) => `found ${value}`,
       Success_value_None: () => 'not found',
     }),
@@ -63,7 +63,7 @@ const match = matchWithFor('_tag')
 
 const toMsg = (data: RemoteData<Error, Option<string>>) => match(data).with({
   Loading: () => 'loading',
-  Failure: (e) => `error: ${e.error.message}`,
+  Failure_error: (e) => `error: ${e.message}`,
   Success_value_Some_value: (value) => `found ${value}`,
   Success_value_None: () => 'not found'
 })
