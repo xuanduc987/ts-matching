@@ -32,9 +32,8 @@ export type ExhaustivePattern<Tag extends string, T extends Adt<Tag>, R> = Neste
               : never
           )
           | { [K in `${NK}_${P}`]: (v: Du<Tag, NK, T>[P]) => R }
-          | { [K in NK]: (v: Du<Tag, NK, T>) => R }
         )
-        : never
+        : { [K in NK]: (v: Du<Tag, NK, T>) => R }
           : never,
       ]
         : never
@@ -42,7 +41,6 @@ export type ExhaustivePattern<Tag extends string, T extends Adt<Tag>, R> = Neste
   : never
   : never
 
-export type Pattern<Tag extends string, T extends Adt<Tag>, R> = Simplify<
-  | ExhaustivePattern<Tag, T, R>
+export type Pattern<Tag extends string, T extends Adt<Tag>, R> =
+  | Simplify<ExhaustivePattern<Tag, T, R>>
   | { _: () => R } // catch all
->

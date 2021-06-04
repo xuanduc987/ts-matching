@@ -8,13 +8,13 @@ test('option some', t => {
   const o = some('TS')
 
   const actualSome = match(o).with({
-    Some: o => `Hello ${o.value}`,
+    Some_value: value => `Hello ${value}`,
     None: () => 'Hello world',
   })
   t.is(actualSome, 'Hello TS')
 
   const actualSome_ = match(o).with({
-    Some: o => `Hello ${o.value}`,
+    Some_value: value => `Hello ${value}`,
     _: () => 'Hello world',
   })
   t.is(actualSome_, 'Hello TS')
@@ -26,7 +26,7 @@ test('option some', t => {
 
   const actual_Some = match(o).with({
     _: () => 'Hello world',
-    Some: o => `Hello ${o.value}`,
+    Some_value: value => `Hello ${value}`,
   })
   t.is(actual_Some, 'Hello world')
 })
@@ -35,7 +35,7 @@ test('option none', t => {
   const o: Option<string> = none
 
   const actualNone = match(o).with({
-    Some: o => `Hello ${o.value}`,
+    Some_value: value => `Hello ${value}`,
     None: () => 'Hello world',
   })
   t.is(actualNone, 'Hello world')
@@ -59,7 +59,7 @@ test('option option some some', t => {
   t.is(
     match(o).with({
       None: () => 'none',
-      Some: () => 'some',
+      Some_value: () => 'some',
     }),
     'some',
   )
@@ -74,7 +74,7 @@ test('option option some some', t => {
 
   t.is(
     match(o).with({
-      Some_value_Some: (v) => 'some some ' + v.value,
+      Some_value_Some_value: value => 'some some ' + value,
       _: () => 'other',
     }),
     'some some a',
@@ -87,7 +87,7 @@ test('option option some none', t => {
   t.is(
     match(o).with({
       None: () => 'none',
-      Some: () => 'some',
+      Some_value: () => 'some',
     }),
     'some',
   )
@@ -102,7 +102,7 @@ test('option option some none', t => {
 
   t.is(
     match(o).with({
-      Some_value_Some: (v) => 'some some ' + v.value,
+      Some_value_Some_value: (value) => 'some some ' + value,
       _: () => 'other',
     }),
     'other',
@@ -115,7 +115,7 @@ test('option option none', t => {
   t.is(
     match(o).with({
       None: () => 'none',
-      Some: () => 'some',
+      Some_value: () => 'some',
     }),
     'none',
   )
@@ -130,7 +130,7 @@ test('option option none', t => {
 
   t.is(
     match(o).with({
-      Some_value_Some: () => 'some some',
+      Some_value_Some_value: () => 'some some',
       _: () => 'other',
     }),
     'other',
@@ -143,7 +143,7 @@ test('option option option some some some', t => {
   t.is(
     match(o).with({
       None: () => 'none',
-      Some: () => 'some',
+      Some_value: () => 'some',
     }),
     'some',
   )
@@ -151,7 +151,7 @@ test('option option option some some some', t => {
   t.is(
     match(o).with({
       Some_value_None: () => 'some none',
-      Some_value_Some_value_Some: () => 'some deep',
+      Some_value_Some_value_Some_value: () => 'some deep',
       _: () => 'other',
     }),
     'some deep',
@@ -159,7 +159,7 @@ test('option option option some some some', t => {
 
   t.is(
     match(o).with({
-      Some_value_Some: () => 'some shallow',
+      Some_value_Some_value: () => 'some shallow',
       _: () => 'other',
     }),
     'some shallow',

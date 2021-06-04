@@ -1,5 +1,5 @@
 import { Pattern } from '../../src/singlePattern'
-import { Equals, expectType, None, Option, Some } from './utils'
+import { Equals, expectType, None, Option } from './utils'
 
 interface A {
   _tag: 'A'
@@ -30,119 +30,9 @@ type ExpectedPattern =
   | {
     A: (v: A) => number
     B: (v: B) => number
-    C: (v: C) => number
-    D: (v: D) => number
-    E: (v: E<Option<string>>) => number
-  }
-  | {
-    A: (v: A) => number
-    B: (v: B) => number
-    C_value: (v: string) => number
-    D: (v: D) => number
-    E: (v: E<Option<string>>) => number
-  }
-  | {
-    A: (v: A) => number
-    B: (v: B) => number
-    C: (v: C) => number
-    D_value: (v: string) => number
-    E: (v: E<Option<string>>) => number
-  }
-  // E only
-  | {
-    A: (v: A) => number
-    B: (v: B) => number
-    C: (v: C) => number
-    D: (v: D) => number
-    E_value: (v: Option<string>) => number
-  }
-  | {
-    A: (v: A) => number
-    B: (v: B) => number
-    C: (v: C) => number
-    D: (v: D) => number
-    E_value_None: (v: None) => number
-    E_value_Some: (v: Some<string>) => number
-  }
-  | {
-    A: (v: A) => number
-    B: (v: B) => number
-    C: (v: C) => number
-    D: (v: D) => number
-    E_value_None: (v: None) => number
-    E_value_Some_value: (v: string) => number
-  }
-  // C and D
-  | {
-    A: (v: A) => number
-    B: (v: B) => number
-    C_value: (v: string) => number
-    D_value: (v: string) => number
-    E: (v: E<Option<string>>) => number
-  }
-  // C and E
-  | {
-    A: (v: A) => number
-    B: (v: B) => number
-    C_value: (v: string) => number
-    D: (v: D) => number
-    E_value: (v: Option<string>) => number
-  }
-  | {
-    A: (v: A) => number
-    B: (v: B) => number
-    C_value: (v: string) => number
-    D: (v: D) => number
-    E_value_None: (v: None) => number
-    E_value_Some: (v: Some<string>) => number
-  }
-  | {
-    A: (v: A) => number
-    B: (v: B) => number
-    C_value: (v: string) => number
-    D: (v: D) => number
-    E_value_None: (v: None) => number
-    E_value_Some_value: (v: string) => number
-  }
-  // D and E
-  | {
-    A: (v: A) => number
-    B: (v: B) => number
-    C: (v: C) => number
-    D_value: (v: string) => number
-    E_value: (v: Option<string>) => number
-  }
-  | {
-    A: (v: A) => number
-    B: (v: B) => number
-    C: (v: C) => number
-    D_value: (v: string) => number
-    E_value_None: (v: None) => number
-    E_value_Some: (v: Some<string>) => number
-  }
-  | {
-    A: (v: A) => number
-    B: (v: B) => number
-    C: (v: C) => number
-    D_value: (v: string) => number
-    E_value_None: (v: None) => number
-    E_value_Some_value: (v: string) => number
-  }
-  // C D E
-  | {
-    A: (v: A) => number
-    B: (v: B) => number
     C_value: (v: string) => number
     D_value: (v: string) => number
     E_value: (v: Option<string>) => number
-  }
-  | {
-    A: (v: A) => number
-    B: (v: B) => number
-    C_value: (v: string) => number
-    D_value: (v: string) => number
-    E_value_None: (v: None) => number
-    E_value_Some: (v: Some<string>) => number
   }
   | {
     A: (v: A) => number

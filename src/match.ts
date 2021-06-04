@@ -13,8 +13,9 @@ interface Match<Tag extends string> {
   <V extends Adt<Tag>, P extends Pattern<Tag, V, unknown>>(pattern: P): (v: V) => _R<P>
 }
 
-const tryMatch = (tag: string, [k, field, ...rest]: string[] = [], v: any): unknown => {
-  if (!v || !k) return
+const tryMatch = (tag: string, [k, field, ...rest]: string[], v: any): unknown => {
+  if (!v) return
+  if (!k) return v
   if (k === '_') return null
   if (v[tag] !== k) return
   if (field) return tryMatch(tag, rest, v[field])

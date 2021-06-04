@@ -10,7 +10,7 @@ test('option some', t => {
   const actualSome = pipe(
     o,
     match({
-      Some: o => `Hello ${o.value}`,
+      Some_value: value => `Hello ${value}`,
       None: () => 'Hello world',
     }),
   )
@@ -19,7 +19,7 @@ test('option some', t => {
   const actualSome_ = pipe(
     o,
     match({
-      Some: o => `Hello ${o.value}`,
+      Some_value: value => `Hello ${value}`,
       _: () => 'Hello world',
     }),
   )
@@ -37,7 +37,7 @@ test('option some', t => {
     o,
     match({
       _: () => 'Hello world',
-      Some: o => `Hello ${o.value}`,
+      Some_value: value => `Hello ${value}`,
     }),
   )
   t.is(actual_Some, 'Hello world')
@@ -49,7 +49,7 @@ test('option none', t => {
   const actualNone = pipe(
     o,
     match({
-      Some: o => `Hello ${o.value}`,
+      Some_value: value => `Hello ${value}`,
       None: () => 'Hello world',
     }),
   )
@@ -82,7 +82,7 @@ test('option option some some', t => {
       o,
       match({
         None: () => 'none',
-        Some: () => 'some',
+        Some_value: () => 'some',
       }),
     ),
     'some',
@@ -103,7 +103,7 @@ test('option option some some', t => {
     pipe(
       o,
       match({
-        Some_value_Some: (v) => 'some some ' + v.value,
+        Some_value_Some_value: (value) => 'some some ' + value,
         _: () => 'other',
       }),
     ),
@@ -119,7 +119,7 @@ test('option option some none', t => {
       o,
       match({
         None: () => 'none',
-        Some: () => 'some',
+        Some_value: () => 'some',
       }),
     ),
     'some',
@@ -140,7 +140,7 @@ test('option option some none', t => {
     pipe(
       o,
       match({
-        Some_value_Some: (v) => 'some some ' + v.value,
+        Some_value_Some_value: (value) => 'some some ' + value,
         _: () => 'other',
       }),
     ),
@@ -156,7 +156,7 @@ test('option option none', t => {
       o,
       match({
         None: () => 'none',
-        Some: () => 'some',
+        Some_value: () => 'some',
       }),
     ),
     'none',
@@ -177,7 +177,7 @@ test('option option none', t => {
     pipe(
       o,
       match({
-        Some_value_Some: () => 'some some',
+        Some_value_Some_value: () => 'some some',
         _: () => 'other',
       }),
     ),
@@ -193,7 +193,7 @@ test('option option option some some some', t => {
       o,
       match({
         None: () => 'none',
-        Some: () => 'some',
+        Some_value: () => 'some',
       }),
     ),
     'some',
@@ -204,7 +204,7 @@ test('option option option some some some', t => {
       o,
       match({
         Some_value_None: () => 'some none',
-        Some_value_Some_value_Some: () => 'some deep',
+        Some_value_Some_value_Some_value: () => 'some deep',
         _: () => 'other',
       }),
     ),
@@ -215,7 +215,7 @@ test('option option option some some some', t => {
     pipe(
       o,
       match({
-        Some_value_Some: () => 'some shallow',
+        Some_value_Some_value: () => 'some shallow',
         _: () => 'other',
       }),
     ),

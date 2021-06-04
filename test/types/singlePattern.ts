@@ -1,11 +1,7 @@
 import { Pattern } from '../../src/singlePattern'
-import { Equals, expectType, None, Option, Some } from './utils'
+import { Equals, expectType, None, Option } from './utils'
 
 type ExpectedPattern0 =
-  | {
-    None: (adt: None) => number
-    Some: (adt: Some<string>) => number
-  }
   | {
     None: (adt: None) => number
     Some_value: (value: string) => number
@@ -21,16 +17,7 @@ expectType<Equals<typeof p0, ExpectedPattern0>>(true)
 type ExpectedPattern1 =
   | {
     None: (adt: None) => number
-    Some: (adt: Some<Option<string>>) => number
-  }
-  | {
-    None: (adt: None) => number
     Some_value: (adt: Option<string>) => number
-  }
-  | {
-    None: (adt: None) => number
-    Some_value_Some: (adt: Some<string>) => number
-    Some_value_None: (adt: None) => number
   }
   | {
     None: (adt: None) => number
@@ -49,27 +36,12 @@ expectType<Equals<typeof p1, ExpectedPattern1>>(true)
 type ExpectedPattern2 =
   | {
     None: (adt: None) => number
-    Some: (adt: Some<Option<Option<string>>>) => number
-  }
-  | {
-    None: (adt: None) => number
     Some_value: (adt: Option<Option<string>>) => number
-  }
-  | {
-    None: (adt: None) => number
-    Some_value_Some: (adt: Some<Option<string>>) => number
-    Some_value_None: (adt: None) => number
   }
   | {
     None: (adt: None) => number
     Some_value_Some_value: (adt: Option<string>) => number
     Some_value_None: (adt: None) => number
-  }
-  | {
-    None: (adt: None) => number
-    Some_value_None: (adt: None) => number
-    Some_value_Some_value_Some: (adt: Some<string>) => number
-    Some_value_Some_value_None: (adt: None) => number
   }
   | {
     None: (adt: None) => number
@@ -89,16 +61,7 @@ expectType<Equals<typeof p2, ExpectedPattern2>>(true)
 type ExpectedPattern3 =
   | {
     None: (adt: None) => number
-    Some: (adt: Some<Option<Option<Option<string>>>>) => number
-  }
-  | {
-    None: (adt: None) => number
     Some_value: (adt: Option<Option<Option<string>>>) => number
-  }
-  | {
-    None: (adt: None) => number
-    Some_value_None: (adt: None) => number
-    Some_value_Some: (adt: Some<Option<Option<string>>>) => number
   }
   | {
     None: (adt: None) => number
@@ -109,20 +72,7 @@ type ExpectedPattern3 =
     None: (adt: None) => number
     Some_value_None: (adt: None) => number
     Some_value_Some_value_None: (adt: None) => number
-    Some_value_Some_value_Some: (adt: Some<Option<string>>) => number
-  }
-  | {
-    None: (adt: None) => number
-    Some_value_None: (adt: None) => number
-    Some_value_Some_value_None: (adt: None) => number
     Some_value_Some_value_Some_value: (adt: Option<string>) => number
-  }
-  | {
-    None: (adt: None) => number
-    Some_value_None: (adt: None) => number
-    Some_value_Some_value_None: (adt: None) => number
-    Some_value_Some_value_Some_value_None: (adt: None) => number
-    Some_value_Some_value_Some_value_Some: (adt: Some<string>) => number
   }
   | {
     None: (adt: None) => number
