@@ -1,9 +1,5 @@
 import { Pattern } from '../../src/singlePattern'
-import { None, Option, Some } from './utils'
-
-// https://github.com/microsoft/TypeScript/issues/27024#issuecomment-421529650
-type Equals<X, Y> = (<T>() => T extends X ? 1 : 2) extends (<T>() => T extends Y ? 1 : 2) ? true : false
-declare function expectType<T>(t: T): void
+import { Equals, expectType, None, Option, Some } from './utils'
 
 type ExpectedPattern0 =
   | {
