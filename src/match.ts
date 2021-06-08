@@ -14,12 +14,12 @@ interface Match<Tag extends string> {
 }
 
 const tryMatch = (tag: string, [k, field, ...rest]: string[], v: any): unknown => {
+  if (!k) return [v]
+  if (k === '_') return [null]
+  if (v?.[tag] !== k) return
   if (!v) return
-  if (!k) return v
-  if (k === '_') return null
-  if (v[tag] !== k) return
   if (field) return tryMatch(tag, rest, v[field])
-  return v
+  return [v]
 }
 
 export const matchFor = <Tag extends string>(tag: Tag): Match<Tag> =>
@@ -28,8 +28,8 @@ export const matchFor = <Tag extends string>(tag: Tag): Match<Tag> =>
       for (const [p, f] of Object.entries(pattern)) {
         const ps = p === '_' ? ['_'] : p.split('_')
         const m = tryMatch(tag, ps, value)
-        if (m !== undefined) {
-          return f(m ?? undefined)
+        if (m !== undefined && Array.isArray(m)) {
+          return f(m[0] ?? undefined)
         }
       }
       throw new TypeError('Incomplete pattern!')

@@ -4,6 +4,17 @@ import { none, Option, some } from './types/utils'
 
 const match = matchWithFor('_tag')
 
+test('option undefined', t => {
+  const o = some(void 0)
+  t.is(
+    match(o).with({
+      Some_value: () => 1,
+      None: () => 0,
+    }),
+    1,
+  )
+})
+
 test('option some', t => {
   const o = some('TS')
 
