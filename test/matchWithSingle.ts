@@ -4,17 +4,6 @@ import { none, Option, some } from './types/utils'
 
 const match = matchWithFor('_tag')
 
-test('option undefined', t => {
-  const o = some(void 0)
-  t.is(
-    match(o).with({
-      Some_value: () => 1,
-      None: () => 0,
-    }),
-    1,
-  )
-})
-
 test('option some', t => {
   const o = some('TS')
 
@@ -181,5 +170,28 @@ test('option option option some some some', t => {
       _: () => 'other',
     }),
     'other',
+  )
+})
+
+test('option undefined', t => {
+  const o = some(void 0)
+  t.is(
+    match(o).with({
+      Some_value: () => 1,
+      None: () => 0,
+    }),
+    1,
+  )
+})
+
+test('tag contains _', t => {
+  const o = some({ _tag: 'IN_MEMORY', value: 10 } as const)
+  t.throws(
+    () =>
+      match(o).with({
+        None: () => 1,
+        // @ts-expect-error
+        Some_value_IN_MEMORY_value: () => 10,
+      }),
   )
 })

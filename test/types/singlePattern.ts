@@ -88,3 +88,22 @@ type ExpectedPattern3 =
 declare const p3: Pattern<'_tag', Option<Option<Option<Option<string>>>>, number>
 expectType<ExpectedPattern3>(p3)
 expectType<Equals<typeof p3, ExpectedPattern3>>(true)
+
+type TestUnderscore = { _tag: 'HELLO_WORLD' } | { _tag: 'HI' }
+
+type ExpectedPattern4 = { _: () => number }
+declare const p4: Pattern<'_tag', TestUnderscore, number>
+expectType<ExpectedPattern4>(p4)
+expectType<Equals<typeof p4, ExpectedPattern4>>(true)
+
+type ExpectedPattern5 =
+  | {
+    None: (v: None) => number
+    Some_value: (v: TestUnderscore) => number
+  }
+  | {
+    _: () => number
+  }
+declare const p5: Pattern<'_tag', Option<TestUnderscore>, number>
+expectType<ExpectedPattern5>(p5)
+expectType<Equals<typeof p5, ExpectedPattern5>>(true)
